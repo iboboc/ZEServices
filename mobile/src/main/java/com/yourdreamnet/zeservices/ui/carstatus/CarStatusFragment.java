@@ -100,6 +100,9 @@ public class CarStatusFragment extends Fragment {
         Button startCharging = getView().findViewById(R.id.startCharge);
         startCharging.setOnClickListener(this::startCharging);
 
+        Button stopCharging = getView().findViewById(R.id.stopCharge);
+        startCharging.setOnClickListener(this::stopCharging);
+
         if (mViewModel.getLastUpdate() == null) {
             loadData();
         } else {
@@ -179,10 +182,19 @@ public class CarStatusFragment extends Fragment {
         TextView range = getView().findViewById(R.id.range);
         range.setText(String.valueOf(mViewModel.getRange()));
 
+        //bobby
+        TextView energy = getView().findViewById(R.id.energy);
+        energy.setText(String.valueOf(mViewModel.getEnergy())+"kW");
+
         Button startCharging = getView().findViewById(R.id.startCharge);
         startCharging.setVisibility(
             !mViewModel.isCharging() ? View.VISIBLE : View.INVISIBLE
         );
+        Button stopCharging = getView().findViewById(R.id.stopCharge);
+        stopCharging.setVisibility(
+                !mViewModel.isCharging() ? View.INVISIBLE : View.VISIBLE
+        );
+
     }
 
     private void toggleRange(View button) {
@@ -213,5 +225,23 @@ public class CarStatusFragment extends Fragment {
             }
         );
     }
+
+    private void stopCharging(View button) {
+        button.setVisibility(View.INVISIBLE);
+        Vehicle api = getApi();
+        api.stopCharge(QueueSingleton.getQueue()).subscribe(
+                response -> {
+                    mViewModel.setCharging(false);
+                    Objects.requireNonNull(getActivity()).runOnUiThread(this::updateView);
+                },
+                error -> {
+                    Log.e("CarStatus", "Unable to stop charging", error);
+                    Objects.requireNonNull(getActivity()).runOnUiThread(
+                            () -> button.setVisibility(View.VISIBLE)
+                    );
+                }
+        );
+    }
+
 
 }

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/chris/StudioProjects/ZEServices/release.keystore')
+            storeFile file('/home/user/AndroidStudioProjects/ZEServices/release.jks')
             storePassword 'Vkqroz93!'
             keyAlias 'key0'
             keyPassword 'Vkqroz93!'

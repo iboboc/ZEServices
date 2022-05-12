@@ -86,6 +86,23 @@ class Vehicle(account: VehicleAccount, vin: String, registration: String) {
         )
     }
 
+    fun cancelPrecondition(queue: RequestQueue): Observable<JSONObject>
+    {
+        return post(
+                queue,
+                "/actions/hvac-start",
+                JSONObject(hashMapOf(
+                        "data" to hashMapOf(
+                                "type" to "HvacStart",
+                                "attributes" to hashMapOf(
+                                        "action" to "cancel"
+                                )
+                        )
+                ) as Map<String, Object>)
+        )
+    }
+
+
     fun startCharge(queue: RequestQueue): Observable<JSONObject>
     {
         return post(
@@ -96,6 +113,22 @@ class Vehicle(account: VehicleAccount, vin: String, registration: String) {
                                 "type" to "ChargingStart",
                                 "attributes" to hashMapOf(
                                         "action" to "start"
+                                )
+                        )
+                ) as Map<String, Object>)
+        )
+    }
+
+    fun stopCharge(queue: RequestQueue): Observable<JSONObject>
+    {
+        return post(
+                queue,
+                "/actions/charging-start",
+                JSONObject(hashMapOf(
+                        "data" to hashMapOf(
+                                "type" to "ChargingStart",
+                                "attributes" to hashMapOf(
+                                        "action" to "stop"
                                 )
                         )
                 ) as Map<String, Object>)

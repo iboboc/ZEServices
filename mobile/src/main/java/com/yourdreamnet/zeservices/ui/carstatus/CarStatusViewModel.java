@@ -20,6 +20,7 @@ public class CarStatusViewModel extends ViewModel {
     private boolean mPluggedIn;
     private int mChargeLevel;
     private int mRangeKm;
+    private int mEnergy;
     private Date mLastUpdated;
     private boolean mRangeMiles = true;
 
@@ -29,7 +30,8 @@ public class CarStatusViewModel extends ViewModel {
             mCharging = batteryData.getInt("chargingStatus") == 1;
             mPluggedIn = batteryData.getInt("plugStatus") == 1;
             mChargeLevel = batteryData.getInt("batteryLevel");
-            mRangeKm = batteryData.getInt("batteryAutonomy");
+            mRangeKm = batteryData.getInt("batteryAutonomy"); //bobby
+            mEnergy = batteryData.getInt("batteryAvailableEnergy");
             try {
                 mLastUpdated = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(
                         batteryData.getString("timestamp")
@@ -66,6 +68,11 @@ public class CarStatusViewModel extends ViewModel {
 
     int getChargeLevel() {
         return mChargeLevel;
+    }
+
+    //bobby
+    int getEnergy() {
+        return mEnergy;
     }
 
     int getRange() {

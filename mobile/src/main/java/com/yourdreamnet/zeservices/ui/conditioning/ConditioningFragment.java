@@ -102,6 +102,31 @@ public class ConditioningFragment extends Fragment {
                 })
             )
         );
+
+        Button cancelcondition = getView().findViewById(R.id.cancel_conditioning);
+        cancelcondition.setOnClickListener(
+                view -> getApi().cancelPrecondition(QueueSingleton.getQueue()).
+                        subscribe(result -> Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                                    View fragment = getView();
+                                    if (fragment == null) {
+                                        return;
+                                    }
+                                    TextView status = fragment.findViewById(R.id.status);
+                                    status.setText(R.string.canceled_condition);
+                                    updateStatus();
+                                }), error -> Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                                    Log.e("Conditioning", "Unable to cancel pre-condition car", error);
+                                    View fragment = getView();
+                                    if (fragment == null) {
+                                        return;
+                                    }
+                                    TextView status = fragment.findViewById(R.id.status);
+                                    status.setText(R.string.error_conditioning);
+                                })
+                        )
+        );
+
+
     }
 
 }
