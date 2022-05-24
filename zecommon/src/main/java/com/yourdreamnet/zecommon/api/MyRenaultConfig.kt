@@ -84,8 +84,7 @@ class MyRenaultConfig(kamareonUrl: String, kamareonApi: String, gigyaUrl: String
                             val servers = response.getJSONObject("servers")
                             val kamareon = servers.getJSONObject("wiredProd")
                             val kamareonUrl = kamareon.getString("target")
-                            //val kamareonApi = kamareon.getString("apikey")
-                            val kamareonApi = "VAX7XYKGfa92yMvXculCkEFyfZbuM7Ss"
+                            val kamareonApi = kamareon.getString("apikey")
                             val gigya = servers.getJSONObject("gigyaProd")
                             val gigyaUrl = gigya.getString("target")
                             val gigyaApi = gigya.getString("apikey")
